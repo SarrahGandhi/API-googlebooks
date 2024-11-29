@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>API</title>
+
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <h1>Google Books API</h1>
+
+    <ul id="book-list"></ul>
+
+    <script>
+      var booklist = document.getElementById("book-list");
+
+      var key = "AIzaSyAYlf1A_wu8xAwW3uIpQsH39JPj_OPtsQo";
+      var url =
+        "https://www.googleapis.com/books/v1/volumes?q=goosebumps&maxResults=40&key=";
+
+      fetch(url + key)
+        .then(function (response) {
+          // console.log(response);
+          return response.json();
+        })
+        .then(function (data) {
+          console.log(data);
+
+          data.items.forEach(function (item) {
+            var title = item.volumeInfo.title;
+            var author = item.volumeInfo.authors[0];
+            var link = item.volumeInfo.canonicalVolumeLink;
+            var img = item.volumeInfo.imageLinks.smallThumbnail;
+
+            var newItem =
+              "<li><h2>" +
+              title +
+              "</h2>" +
+              author +
+              "<br>" +
+              "<img src='" +
+              img +
+              "'><br>" +
+              "<button onclick=\"window.open('" +
+              link +
+              "', '_blank')\">View Book</button>" +
+              "</li>";
+            booklist.innerHTML += newItem;
+          });
+        });
+    </script>
+  </body>
+</html>
